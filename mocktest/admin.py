@@ -1,18 +1,9 @@
 from django.contrib import admin
-from .models import Subject, Question, MockTest, User, UserTestResult
+from .models import MockTest, Question, Subject, TestResult, UserAnswer
 
-admin.site.register(Subject)
-admin.site.register(Question)
+# Register your models here
 admin.site.register(MockTest)
-admin.site.register(UserTestResult)
-# mocktest/admin.py
-from django.contrib import admin
-from .models import MockTest, UserTestResult  # Import your models
-
-# Register your models
-# mocktest/admin.py
-from django.contrib import admin
-from .models import MockTest, UserTestResult  # Register your models, not User
-
-# Registering your custom models
-
+admin.site.register(Question)
+admin.site.register(Subject)
+admin.site.register(TestResult)
+admin.site.register(UserAnswer)

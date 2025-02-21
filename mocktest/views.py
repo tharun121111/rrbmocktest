@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from .models import MockTest, Question
+from .models import MockTest, Question, TestResult, UserAnswer
 
 # Home view
 def home(request):
@@ -35,17 +35,43 @@ def submit_test(request, test_id):
             if selected_answer:
                 selected_answers[question.id] = selected_answer
 
-        # Save or process the selected answers (e.g., calculate score)
-        # For now, just return a simple response
-        return HttpResponse(f"Test submitted! Your answers: {selected_answers}")
+        # Calculate score
+        score = 0
+        for question_id, selected_answer in selected_answers.items():
+            question = get_object_or_404(Question, id=question_id)
+            if selected_answer == question.correct_answer:
+                score += 1  # Award 1 point for correct answer
+
+        # Save test result for the user (assuming the user is logged in)
+        user = request.user
+        test_result = TestResult.objects.create(
+            user=user,
+            mock_test=mock_test,
+            score=score
+        )
+
+        # Save user's answers for record-keeping
+        for question_id, selected_answer in selected_answers.items():
+            question = get_object_or_404(Question, id=question_id)
+            UserAnswer.objects.create(
+                user=user,
+                question=question,
+                selected_option=selected_answer
+            )
+
+        # Redirect to the result page
+        return redirect('mocktest:test_result', test_id=test_id)
 
     return redirect('mocktest:start_test', test_id=test_id)
 
 # View to display test result
 def test_result(request, test_id):
     mock_test = get_object_or_404(MockTest, id=test_id)
-    # Add logic to calculate and display the result
-    return render(request, 'mocktest/test_result.html', {'mock_test': mock_test})
+    # Assuming the user is logged in, fetch the user's result
+    user = request.user
+    test_result = get_object_or_404(TestResult, user=user, mock_test=mock_test)
+
+    return render(request, 'mocktest/test_result.html', {'mock_test': mock_test, 'test_result': test_result})
 
 # View to add a question to a mock test
 def add_question(request, test_id):

@@ -14,7 +14,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
 
     # Home page (redirect to mocktest home)
-    path('', include('mocktest.urls')),
+    path('', include('mocktest.urls')),  # Updated to use include
 ]
 
 # Serve static files during development

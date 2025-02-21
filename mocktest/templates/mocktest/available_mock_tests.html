@@ -1,0 +1,24 @@
+{% extends 'base_generic.html' %}
+
+{% load static %}
+
+{% block content %}
+  <div class="container">
+    <h1>Available Mock Tests</h1>
+
+    {% if mock_tests %}
+      <ul>
+        {% for mock_test in mock_tests %}
+          <li>
+            <a href="{% url 'test_detail' test_id=mock_test.id %}">{{ mock_test.name }}</a> - {{ mock_test.description }}
+          </li>
+        {% empty %}
+          <li>No mock tests available.</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    
+    <a href="{% url 'home' %}">Back to Home</a>
+  </div>
+{% endblock %}
+

@@ -1,0 +1,25 @@
+<!-- templates/mocktest/display_questions.html -->
+
+<h1>Questions for {{ mock_test.name }}</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    {% for question in questions %}
+        <div>
+            <p>{{ question.question_text }}</p>
+            <label>
+                <input type="radio" name="question_{{ question.id }}" value="option_1"> {{ question.option_1 }}
+            </label><br>
+            <label>
+                <input type="radio" name="question_{{ question.id }}" value="option_2"> {{ question.option_2 }}
+            </label><br>
+            <label>
+                <input type="radio" name="question_{{ question.id }}" value="option_3"> {{ question.option_3 }}
+            </label><br>
+            <label>
+                <input type="radio" name="question_{{ question.id }}" value="option_4"> {{ question.option_4 }}
+            </label><br>
+        </div>
+    {% endfor %}
+    <button type="submit">Submit Answers</button>
+</form>

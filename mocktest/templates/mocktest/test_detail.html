@@ -1,0 +1,16 @@
+<!-- mocktest/templates/mocktest/test_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ mock_test.name }}</title>
+</head>
+<body>
+    <h1>{{ mock_test.name }}</h1>
+    <p>{{ mock_test.description }}</p>
+    <a href="{% url 'start_test' test_id=mock_test.id %}">Start the Test</a>
+    <br>
+    <a href="{% url 'available_mock_tests' %}">Back to Mock Tests</a>
+</body>
+</html>
